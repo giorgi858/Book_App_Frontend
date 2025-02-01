@@ -1,40 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import ListsPage from './pages/ListsPage'
+import { Routes, Route } from 'react-router-dom'
+import SingleListPage from './pages/SingleListPage'
+import Header from './components/Header'
 
 const App = () => {
-  const [ books, setBooks ] = useState('')
-  const [fetchError, setFetchError] = useState(null)
-
-
-  useEffect(() => {
-    const getBookNotes  =  async() => {
-      try {
-        const response = await fetch('api/')
-        const data = await response.json()
-        console.log('data', data);
-        setBooks(data)
-      } catch (error) {
-        setFetchError(error.message)
-      }
-    }
-    getBookNotes()
-  },[])
-
-
   return (
-    <div>
-      {fetchError && <p>{`Error : ${fetchError}`}</p>}
-      {books && 
-      <>
-      {books.map((book, id) => {
-        return (
-          <React.Fragment key={id}>
-            <li>{book.title}</li>
-            <li>{book.content}</li>
-          </React.Fragment>
-        )
-      })}
-      </>
-      }
+    <div className='container dark'>
+       <div className='app'>
+        <Header/>
+        <Routes>
+          <Route path='/' Component={ListsPage}/>
+          <Route path='/book/:id' Component={SingleListPage}/>
+        </Routes>
+        </div> 
     </div>
   )
 }
